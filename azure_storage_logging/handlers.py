@@ -375,7 +375,7 @@ class TableStorageHandler(logging.Handler):
                 self.ready = True
             # generate partition key for the entity
             record.hostname = self.meta['hostname']
-            record.user = 'user Id'
+            record.userid = '2'
             copy = self._copyLogRecord(record)
             partition_key = self.partition_key_formatter.format(copy)
             # ensure entities in the batch all have the same patition key
