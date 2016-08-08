@@ -226,7 +226,7 @@ class QueueStorageHandler(logging.Handler):
     """
     Handler class which sends log messages to a Azure Storage queue.
     """
-    def __init__(self, 
+    def __init__(self,
                  account_name=None,
                  account_key=None,
                  protocol='https',
@@ -282,7 +282,7 @@ class TableStorageHandler(logging.Handler):
     """
     MAX_BATCH_SIZE = 100
 
-    def __init__(self, 
+    def __init__(self,
                  account_name=None,
                  account_key=None,
                  protocol='https',
@@ -291,6 +291,7 @@ class TableStorageHandler(logging.Handler):
                  extra_properties=None,
                  partition_key_formatter=None,
                  row_key_formatter=None,
+                 user_id='0'
                  ):
         """
         Initialize the handler.
@@ -299,7 +300,7 @@ class TableStorageHandler(logging.Handler):
         self.service = TableService(account_name=account_name,
                                     account_key=account_key,
                                     protocol=protocol)
-        self.meta = {'hostname': gethostname(), 'process': os.getpid(), 'userid':'1'}
+        self.meta = {'hostname': gethostname(), 'process': os.getpid(), 'userid':user_id}
         self.table = _formatName(table, self.meta)
         self.ready = False
         self.rowno = 0
@@ -375,7 +376,7 @@ class TableStorageHandler(logging.Handler):
                 self.ready = True
             # generate partition key for the entity
             record.hostname = self.meta['hostname']
-            record.userid = '2'
+            record.userid = self.meta['userid']
             copy = self._copyLogRecord(record)
             partition_key = self.partition_key_formatter.format(copy)
             # ensure entities in the batch all have the same patition key
