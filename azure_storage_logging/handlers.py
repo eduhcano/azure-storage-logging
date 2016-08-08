@@ -298,7 +298,7 @@ class TableStorageHandler(logging.Handler):
         self.service = TableService(account_name=account_name,
                                     account_key=account_key,
                                     protocol=protocol)
-        self.meta = {'hostname': gethostname(), 'process': os.getpid()}
+        self.meta = {'hostname': gethostname(), 'process': os.getpid(), 'userid':'1'}
         self.table = _formatName(table, self.meta)
         self.ready = False
         self.rowno = 0
