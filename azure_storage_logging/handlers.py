@@ -52,7 +52,8 @@ class _BlobStorageFileHandler(object):
         self.container_created = False
         hostname = gethostname()
         self.meta = {'hostname': hostname.replace('_', '-'),
-                     'process': os.getpid()}
+                     'process': os.getpid(),
+                     'userid':'1'}
         self.container = (container % self.meta).lower()
         self.meta['hostname'] = hostname
         self.zip_compression = zip_compression
@@ -114,7 +115,7 @@ class BlobStorageRotatingFileHandler(RotatingFileHandler,
                   max_connections=1,
                   max_retries=5,
                   retry_wait=1.0):
-        meta = {'hostname': gethostname(), 'process': os.getpid()}
+        meta = {'hostname': gethostname(), 'process': os.getpid(), 'userid':'1'}
         RotatingFileHandler.__init__(self,
                                      filename % meta,
                                      mode=mode,
@@ -173,7 +174,7 @@ class BlobStorageTimedRotatingFileHandler(TimedRotatingFileHandler,
                  max_connections=1,
                  max_retries=5,
                  retry_wait=1.0):
-        meta = {'hostname': gethostname(), 'process': os.getpid()}
+        meta = {'hostname': gethostname(), 'process': os.getpid(), 'userid':'1'}
         TimedRotatingFileHandler.__init__(self,
                                           filename % meta,
                                           when=when,
@@ -241,7 +242,7 @@ class QueueStorageHandler(logging.Handler):
         self.service = QueueService(account_name=account_name,
                                     account_key=account_key,
                                     protocol=protocol)
-        self.meta = {'hostname': gethostname(), 'process': os.getpid()}
+        self.meta = {'hostname': gethostname(), 'process': os.getpid(), 'userid':'1'}
         self.queue = _formatName(queue, self.meta)
         self.queue_created = False
         self.message_ttl = message_ttl
